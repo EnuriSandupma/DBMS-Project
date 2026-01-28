@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineBook - Movie Booking System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+        <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#" onclick="showPage('home')">
+                <i class="fas fa-film"></i>CineBook
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('home')">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('movies')">Movies</a>
+                    </li>
+                    <li class="nav-item" id="myBookingsNav" style="display: none;">
+                        <a class="nav-link" href="#" onclick="showPage('myBookings')">My Bookings</a>
+                    </li>
+                    <li class="nav-item" id="adminNav" style="display: none;">
+                        <a class="nav-link" href="#" onclick="showPage('admin')">Admin Dashboard</a>
+                    </li>
+                    <li class="nav-item" id="loginNav">
+                        <a class="nav-link" href="#" onclick="showPage('login')">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </a>
+                    </li>
+                    <li class="nav-item" id="registerNav">
+                        <a class="nav-link" href="#" onclick="showPage('register')">
+                            <i class="fas fa-user-plus"></i> Register
+                        </a>
+                    </li>
+                    <li class="nav-item" id="logoutNav" style="display: none;">
+                        <a class="nav-link" href="#" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="homePage" class="page-section active">
+        <div class="hero-section">
+            <div class="container">
+                <h1>Book Your Movie Tickets Online</h1>
+                <p>Skip the queue. Choose your seats. Enjoy the show.</p>
+                <button class="btn btn-primary btn-lg" onclick="showPage('movies')">
+                    <i class="fas fa-ticket-alt"></i> Browse Movies
+                </button>
+            </div>
+        </div>
+
+        <div class="container mt-5">
+            <h2 class="mb-4">Now Showing</h2>
+            <div class="row" id="homeMoviesList">
+                <!-- Movies will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Movies Page -->
+    <div id="moviesPage" class="page-section container mt-5">
+        <h2 class="mb-4">All Movies</h2>
+        <div class="row" id="moviesList">
+            <!-- Movies will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Movie Details & Booking Page -->
+    <div id="bookingPage" class="page-section container mt-5">
+        <button class="btn btn-secondary mb-3" onclick="showPage('movies')">
+            <i class="fas fa-arrow-left"></i> Back to Movies
+        </button>
+        
+        <div class="row">
+            <div class="col-lg-8">
+                <div id="movieDetails"></div>
+                
+                <!-- Showtime Selection -->
+                <div class="mt-4">
+                    <h4>Select Showtime</h4>
+                    <div id="showtimesList"></div>
+                </div>
+
+                <!-- Seat Selection -->
+                <div class="mt-4" id="seatSelectionSection" style="display: none;">
+                    <h4>Select Your Seats</h4>
+                    
+                    <div class="seat-legend">
+                        <div class="legend-item">
+                            <div class="legend-seat" style="background-color: #444;"></div>
+                            <span>Available</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-seat" style="background-color: var(--primary-color);"></div>
+                            <span>Selected</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-seat" style="background-color: #222; opacity: 0.5;"></div>
+                            <span>Booked</span>
+                        </div>
+                    </div>
+
+                    <div class="screen">SCREEN</div>
+                    
+                    <div class="seat-container" id="seatsContainer"></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="booking-summary">
+                    <h4>Booking Summary</h4>
+                    <div class="summary-item">
+                        <span>Movie:</span>
+                        <span id="summaryMovie">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Date & Time:</span>
+                        <span id="summaryShowtime">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Seats:</span>
+                        <span id="summarySeats">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Tickets:</span>
+                        <span id="summaryTickets">0</span>
+                    </div>
+                    <div class="summary-item" style="border: none;">
+                        <span class="total-amount">Total:</span>
+                        <span class="total-amount" id="summaryTotal">LKR 0</span>
+                    </div>
+                    <button class="btn btn-primary w-100 mt-3" onclick="confirmBooking()" id="confirmBookingBtn" disabled>
+                        Confirm Booking
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Page -->
+    <div id="loginPage" class="page-section">
+        <div class="auth-container">
+            <h2 class="text-center mb-4">Login</h2>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Login</button>
+            </form>
+            <p class="text-center mt-3">
+                Don't have an account? <a href="#" onclick="showPage('register')" style="color: var(--primary-color);">Register here</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Register Page -->
+    <div id="registerPage" class="page-section">
+        <div class="auth-container">
+            <h2 class="text-center mb-4">Register</h2>
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="mb-3">
+                    <label class="form-label">First Name</label>
+                    <input type="text" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">NIC Number</label>
+                    <input type="text" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Contact Number</label>
+                    <input type="tel" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Register</button>
+            </form>
+            <p class="text-center mt-3">
+                Already have an account? <a href="#" onclick="showPage('login')" style="color: var(--primary-color);">Login here</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- My Bookings Page -->
+    <div id="myBookingsPage" class="page-section container mt-5">
+        <h2 class="mb-4">My Bookings</h2>
+        <div id="bookingsList"></div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="adminPage" class="page-section container mt-5">
+        <h2 class="mb-4">Admin Dashboard</h2>
+        
+        <ul class="nav nav-tabs mb-4" id="adminTabs">
+            <li class="nav-item">
+                <a class="nav-link active" href="#" onclick="showAdminTab('movies')">Manage Movies</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="showAdminTab('showtimes')">Manage Showtimes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="showAdminTab('bookings')">All Bookings</a>
+            </li>
+        </ul>
+
+        <!-- Manage Movies -->
+        <div id="adminMoviesTab" class="admin-tab">
+            <div class="admin-card">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4>Movies</h4>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMovieModal">
+                        <i class="fas fa-plus"></i> Add Movie
+                    </button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-dark table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Genre</th>
+                                <th>Duration</th>
+                                <th>Release Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminMoviesTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Manage Showtimes -->
+        <div id="adminShowtimesTab" class="admin-tab" style="display: none;">
+            <div class="admin-card">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4>Showtimes</h4>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addShowtimeModal">
+                        <i class="fas fa-plus"></i> Add Showtime
+                    </button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-dark table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Movie</th>
+                                <th>Date</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                                <th>Hall</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminShowtimesTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- All Bookings -->
+        <div id="adminBookingsTab" class="admin-tab" style="display: none;">
+            <div class="admin-card">
+                <h4 class="mb-3">All Bookings</h4>
+                <div class="table-responsive">
+                    <table class="table table-dark table-striped">
+                        <thead>
+                            <tr>
+                                <th>Booking ID</th>
+                                <th>Customer</th>
+                                <th>Movie</th>
+                                <th>Showtime</th>
+                                <th>Seats</th>
+                                <th>Status</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminBookingsTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Movie Modal -->
+    <div class="modal fade" id="addMovieModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Movie</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addMovieForm">
+                        <div class="mb-3">
+                            <label class="form-label">Title</label>
+                            <input type="text" class="form-control" name="title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Genre</label>
+                            <input type="text" class="form-control" name="genre" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Duration (minutes)</label>
+                            <input type="number" class="form-control" name="duration" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Language</label>
+                            <input type="text" class="form-control" name="language" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Release Date</label>
+                            <input type="date" class="form-control" name="release_date" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" name="description" rows="3" required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="addMovie()">Add Movie</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Showtime Modal -->
+    <div class="modal fade" id="addShowtimeModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Showtime</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addShowtimeForm">
+                        <div class="mb-3">
+                            <label class="form-label">Movie</label>
+                            <select class="form-control" name="movie_id" id="showtimeMovieSelect" required></select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Show Date</label>
+                            <input type="date" class="form-control" name="show_date" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Start Time</label>
+                            <input type="time" class="form-control" name="start_time" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">End Time</label>
+                            <input type="time" class="form-control" name="end_time" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Hall ID</label>
+                            <input type="number" class="form-control" name="hall_id" value="1" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="addShowtime()">Add Showtime</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CineBook - Movie Booking System | Group 16 - DBMS Project</p>
+            <p>University of Sri Jayawardenepura</p>
+        </div>
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
