@@ -6,7 +6,7 @@
 -- Generation Time: Jan 29, 2026 at 09:59 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
-
+CREATE DATABASE movie_booking
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -20,7 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `movie_booking_system`
 --
-
+create database if not exists `movie_booking_system` default character set utf8mb4 collate utf8mb4_general_ci;
+use `movie_booking_system`;
 -- --------------------------------------------------------
 
 --
