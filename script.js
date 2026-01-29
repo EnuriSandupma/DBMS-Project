@@ -7,7 +7,7 @@
         let selectedShowtime = null;
         let selectedSeats = [];
 
-        // Initialize with sample data (Replace with API calls later)
+        // Initialize with sample data 
         function initializeData() {
             movies = [
                 {
