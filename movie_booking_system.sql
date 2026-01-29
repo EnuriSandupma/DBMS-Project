@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 25, 2026 at 03:28 AM
+-- Generation Time: Jan 29, 2026 at 09:59 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -21,9 +21,6 @@ SET time_zone = "+00:00";
 -- Database: `movie_booking_system`
 --
 
-
-create database if not exists `movie_booking_system` default character set utf8mb4 collate utf8mb4_general_ci;
-use `movie_booking_system`;
 -- --------------------------------------------------------
 
 --
@@ -33,11 +30,18 @@ use `movie_booking_system`;
 CREATE TABLE `admin` (
   `Admin_ID` int(11) NOT NULL,
   `Admin_First_Name` varchar(20) NOT NULL,
-  `Admin_email` varchar(30) not null,
+  `Admin_email` varchar(30) NOT NULL,
   `Admin_Last_Name` varchar(20) NOT NULL,
   `Admin_Contact_No` varchar(12) NOT NULL,
   `Admin_Password_Hash` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`Admin_ID`, `Admin_First_Name`, `Admin_email`, `Admin_Last_Name`, `Admin_Contact_No`, `Admin_Password_Hash`) VALUES
+(0, 'Admin', 'admin@cinebook.com', 'User', '1234567890', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi');
 
 -- --------------------------------------------------------
 
@@ -57,9 +61,7 @@ CREATE TABLE `booking` (
 --
 
 INSERT INTO `booking` (`Booking_ID`, `Booking_Status`, `TimeStamping`, `Customer_ID`) VALUES
-(1, 'Confirmed', '2026-01-25 07:06:42', 1),
-(2, 'Confirmed', '2026-01-25 07:27:39', 1),
-(4, 'Confirmed', '2026-01-25 07:44:43', 2);
+(1, 'Confirmed', '2026-01-29 00:55:15', 1);
 
 -- --------------------------------------------------------
 
@@ -82,14 +84,9 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`Customer_ID`, `Customer_First_Name`, `Customer_Last_Name`, `Email`, `NIC`, `Customer_Contact`, `Customer_Password_Hash`) VALUES
-(1, 'Kethmika', 'Edirisinghe', 'kethmikaed@gmail.com', '200400812784', '0736148589', '$2y$10$z/.X2oL1Tr25PcbDzY9AHe35pjIdDky3IGVCL7VhFD990DNYZXvpG'),
-(2, 'sanduni', 'sehana', 'sehana@gmail.com', '200300812784', '01111785285', 'dell123');
+(1, 'Kethmika', 'Edirisinghe', 'kethmikaed@gmail.com', '200400812784', '0763670678', '$2y$10$xCWOgpDDcIHupYdwfGAL2uHJFuRR5RQUBp6RC0VqhyBvh73.R5oo2');
 
 -- --------------------------------------------------------
-INSERT INTO admin (Admin_First_Name, Admin_Last_Name, Admin_email, Admin_Contact_No, Admin_Password_Hash)
-VALUES ('Admin', 'User', 'admin@cinebook.com', '1234567890', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi')
-ON DUPLICATE KEY UPDATE Admin_email = Admin_email;
-
 
 --
 -- Table structure for table `hall`
@@ -121,13 +118,6 @@ CREATE TABLE `invoice` (
   `Admin_ID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `invoice`
---
-
-INSERT INTO `invoice` (`Invoice_ID`, `Total_payment`, `Payment_status`, `Booking_ID`, `Admin_ID`) VALUES
-(1, 1000.00, 'Paid', 4, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -148,7 +138,14 @@ CREATE TABLE `movie` (
 --
 
 INSERT INTO `movie` (`Movie_ID`, `Title`, `Genre`, `Movie_Language`, `Release_date`, `Duration_time`) VALUES
-(1, 'Interstellar', 'Sci-Fi', 'English', '2026-02-01', 169);
+(1, 'Greenland 2: Migration', 'Action/Thriller', 'English', '2026-01-09', 115),
+(2, 'Mercy', 'Sci-Fi/Crime', 'English', '2026-01-23', 100),
+(3, 'Send Help', 'Horror/Thriller', 'English', '2026-01-30', 105),
+(4, 'Wuthering Heights', 'Romance/Drama', 'English', '2026-02-12', 130),
+(5, 'Scream 7', 'Horror', 'English', '2026-02-26', 110),
+(6, 'Toy Story 5', 'Animation/Family', 'English', '2026-06-19', 100),
+(7, 'The Odyssey', 'Action/Fantasy', 'English', '2026-07-17', 140),
+(8, 'Avengers: Doomsday', 'Superhero/Action', 'English', '2026-12-18', 150);
 
 -- --------------------------------------------------------
 
@@ -239,8 +236,23 @@ CREATE TABLE `showtime` (
 --
 
 INSERT INTO `showtime` (`Showtime_ID`, `Show_Date`, `Start_time`, `End_time`, `Hall_ID`, `Movie_ID`) VALUES
-(1, '2026-01-25', '10:00:00', '13:00:00', 1, 1),
-(2, '2026-02-01', '10:00:00', '13:00:00', 1, 1);
+(1, '2026-01-09', '10:00:00', '11:55:00', 1, 1),
+(2, '2026-01-09', '16:00:00', '17:55:00', 1, 1),
+(3, '2026-01-23', '10:00:00', '11:40:00', 1, 2),
+(4, '2026-01-23', '14:00:00', '15:40:00', 1, 2),
+(5, '2026-01-30', '10:00:00', '11:45:00', 1, 3),
+(6, '2026-01-30', '16:00:00', '17:45:00', 1, 3),
+(7, '2026-02-12', '13:00:00', '15:10:00', 1, 4),
+(8, '2026-02-12', '18:00:00', '20:10:00', 1, 4),
+(9, '2026-02-26', '14:00:00', '15:50:00', 1, 5),
+(10, '2026-02-26', '19:00:00', '20:50:00', 1, 5),
+(11, '2026-06-19', '10:00:00', '11:40:00', 1, 6),
+(12, '2026-06-19', '13:00:00', '14:40:00', 1, 6),
+(13, '2026-07-17', '14:00:00', '16:20:00', 1, 7),
+(14, '2026-07-17', '18:00:00', '20:20:00', 1, 7),
+(15, '2026-12-18', '13:00:00', '15:30:00', 1, 8),
+(16, '2026-12-18', '16:00:00', '18:30:00', 1, 8),
+(17, '2026-12-18', '19:00:00', '21:30:00', 1, 8);
 
 -- --------------------------------------------------------
 
@@ -261,12 +273,8 @@ CREATE TABLE `ticket` (
 --
 
 INSERT INTO `ticket` (`Ticket_ID`, `Price`, `Showtime_ID`, `Booking_ID`, `Seat_ID`) VALUES
-(1, 1000.00, 1, 1, 1),
-(2, 1000.00, 1, 1, 2),
-(3, 1000.00, 1, 1, 3),
-(4, 1000.00, 1, 2, 1),
-(5, 1000.00, 1, 2, 2),
-(7, 1000.00, 1, 4, NULL);
+(1, 1500.00, 14, 1, 1),
+(2, 1000.00, 14, 1, 12);
 
 --
 -- Indexes for dumped tables
@@ -351,13 +359,13 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `Booking_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Booking_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `Customer_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Customer_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `hall`
@@ -369,13 +377,13 @@ ALTER TABLE `hall`
 -- AUTO_INCREMENT for table `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `Invoice_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Invoice_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `movie`
 --
 ALTER TABLE `movie`
-  MODIFY `Movie_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Movie_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `seat`
@@ -387,13 +395,13 @@ ALTER TABLE `seat`
 -- AUTO_INCREMENT for table `showtime`
 --
 ALTER TABLE `showtime`
-  MODIFY `Showtime_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Showtime_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `ticket`
 --
 ALTER TABLE `ticket`
-  MODIFY `Ticket_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `Ticket_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
