@@ -21,7 +21,7 @@ SET time_zone = "+00:00";
 -- Database: `movie_booking_system`
 --
 
-drop database `movie_booking_system`;
+
 create database if not exists `movie_booking_system` default character set utf8mb4 collate utf8mb4_general_ci;
 use `movie_booking_system`;
 -- --------------------------------------------------------
