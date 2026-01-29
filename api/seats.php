@@ -1,8 +1,5 @@
 <?php
-/**
- * CineBook - Seats API
- * Handles seat availability and booking
- */
+
 
 require_once 'config.php';
 
@@ -36,7 +33,7 @@ function getSeats() {
             sendError('Showtime not found');
         }
         
-        // Get all seats for this hall with price based on seat type
+        
         $stmt = $db->prepare("
             SELECT 
                 Seat_ID,

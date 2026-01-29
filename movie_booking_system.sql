@@ -90,7 +90,7 @@ INSERT INTO admin (Admin_First_Name, Admin_Last_Name, Admin_email, Admin_Contact
 VALUES ('Admin', 'User', 'admin@cinebook.com', '1234567890', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi')
 ON DUPLICATE KEY UPDATE Admin_email = Admin_email;
 
--- Ensure hall exists
+
 --
 -- Table structure for table `hall`
 --

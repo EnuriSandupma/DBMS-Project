@@ -1,7 +1,6 @@
 <?php
 /**
  * CineBook - Bookings API
- * Handles booking creation and retrieval
  */
 
 require_once 'config.php';

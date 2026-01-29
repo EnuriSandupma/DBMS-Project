@@ -1,8 +1,5 @@
 <?php
-/**
- * CineBook - Showtimes API
- * Handles showtime listing, creation, and deletion
- */
+
 
 require_once 'config.php';
 

@@ -1,8 +1,4 @@
 <?php
-/**
- * CineBook - Authentication API
- * Handles user login, registration, and session management
- */
 
 require_once 'config.php';
 

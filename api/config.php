@@ -1,8 +1,6 @@
 <?php
 /**
  * CineBook - Database Configuration
- * 
- * This file provides the database connection and common utilities
  * for all API endpoints.
  */
 
@@ -11,13 +9,13 @@ define('DB_HOST', 'localhost');
 define('DB_PORT', '3306');
 define('DB_NAME', 'movie_booking_system');
 define('DB_USER', 'root');
-define('DB_PASS', ''); // XAMPP default: empty password
+define('DB_PASS', ''); 
 
-// Enable error reporting for development
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Start session for authentication
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -37,7 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 /**
  * Get database connection using PDO
- * @return PDO Database connection object
  */
 function getDB() {
     static $pdo = null;
@@ -60,11 +57,7 @@ function getDB() {
     return $pdo;
 }
 
-/**
- * Send JSON success response
- * @param mixed $data Data to send
- * @param string $message Optional message
- */
+
 function sendSuccess($data = [], $message = 'Success') {
     echo json_encode([
         'success' => true,
@@ -74,11 +67,7 @@ function sendSuccess($data = [], $message = 'Success') {
     exit();
 }
 
-/**
- * Send JSON error response
- * @param string $message Error message
- * @param int $code HTTP status code
- */
+
 function sendError($message = 'An error occurred', $code = 400) {
     http_response_code($code);
     echo json_encode([
@@ -88,10 +77,7 @@ function sendError($message = 'An error occurred', $code = 400) {
     exit();
 }
 
-/**
- * Get JSON input from request body
- * @return array Decoded JSON data
- */
+
 function getJsonInput() {
     $input = file_get_contents('php://input');
     return json_decode($input, true) ?? [];
@@ -132,39 +118,22 @@ function requireAdmin() {
     }
 }
 
-/**
- * Hash password
- * @param string $password Plain text password
- * @return string Hashed password
- */
+
 function hashPassword($password) {
     return password_hash($password, PASSWORD_DEFAULT);
 }
 
-/**
- * Verify password
- * @param string $password Plain text password
- * @param string $hash Hashed password
- * @return bool
- */
+
 function verifyPassword($password, $hash) {
     return password_verify($password, $hash);
 }
 
-/**
- * Sanitize input
- * @param string $data Input data
- * @return string Sanitized data
- */
+
 function sanitize($data) {
     return htmlspecialchars(strip_tags(trim($data)));
 }
 
-/**
- * Validate email
- * @param string $email Email address
- * @return bool
- */
+
 function isValidEmail($email) {
     return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
 }
